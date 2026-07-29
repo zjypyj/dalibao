@@ -108,7 +108,7 @@ export const validateCalculationInput = (
     return { valid: false, message: "请输入大于 0 的前 12 个月平均工资" };
   }
   if (!input.startDate || !input.endDate) {
-    return { valid: false, message: "请选择入职日期和离职日期" };
+    return { valid: false, message: "请选择起算日期和礼包结算日期" };
   }
   if (!Number.isFinite(input.minimumMonthlyWage) || input.minimumMonthlyWage < 0) {
     return { valid: false, message: "最低工资不能小于 0" };
@@ -117,7 +117,7 @@ export const validateCalculationInput = (
     input.lastMonthSalary !== undefined &&
     (!Number.isFinite(input.lastMonthSalary) || input.lastMonthSalary < 0)
   ) {
-    return { valid: false, message: "解除前一个月工资不能小于 0" };
+    return { valid: false, message: "结算前一个月工资不能小于 0" };
   }
   if (
     input.localAverageMonthlyWage !== undefined &&
@@ -131,12 +131,12 @@ export const validateCalculationInput = (
     const start = parseDate(input.startDate);
     const end = parseDate(input.endDate);
     if (compareDates(start, end) > 0) {
-      return { valid: false, message: "离职日期不能早于入职日期" };
+      return { valid: false, message: "礼包结算日期不能早于起算日期" };
     }
     if (compareDates(end, parseDate(LAW_EFFECTIVE_DATE)) < 0) {
       return {
         valid: false,
-        message: "离职日期早于 2008 年，本工具无法按现行规则估算",
+        message: "礼包结算日期早于 2008 年，本工具无法按现行规则估算",
       };
     }
   } catch {

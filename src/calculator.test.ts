@@ -30,7 +30,7 @@ describe("calculateNCoefficient", () => {
     expect(calculateNCoefficient("2024-01-01", "2025-07-01")).toBe(2);
   });
 
-  it("同日入离职按不足六个月的 0.5N 估算", () => {
+  it("起算与结算同日按不足六个月的 0.5N 估算", () => {
     expect(calculateNCoefficient("2024-01-01", "2024-01-01")).toBe(0.5);
   });
 });
@@ -67,7 +67,7 @@ describe("calculateCompensation", () => {
     expect(result.usedTwelveYearCap).toBe(true);
   });
 
-  it("N+1 使用解除前一个月工资作为加一", () => {
+  it("N+1 使用结算前一个月工资作为加一", () => {
     const result = calculateCompensation({
       ...baseInput,
       lastMonthSalary: 12_000,

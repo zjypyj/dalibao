@@ -27,21 +27,21 @@ const modes: Array<{
 }> = [
   {
     value: "n",
-    label: "经济补偿",
+    label: "标准礼包",
     short: "N",
-    description: "常见于协商解除、合同终止等法定应补偿情形",
+    description: "稳稳当当的基础档，先把该有的好彩头算清楚",
   },
   {
     value: "n+1",
-    label: "补偿 + 代通知",
+    label: "加码礼包",
     short: "N+1",
-    description: "仅适用于特定解除情形且未提前 30 日书面通知",
+    description: "在标准档上再添一份，具体适用请核对实际情况",
   },
   {
     value: "2n",
-    label: "违法解除赔偿",
+    label: "双倍礼包",
     short: "2N",
-    description: "违法解除或终止且不继续履行劳动合同等情形",
+    description: "好事成双的高配档，是否适用需结合材料判断",
   },
 ];
 
@@ -49,7 +49,7 @@ const legalReferences = [
   {
     index: "01",
     title: "《劳动法》第二十八条",
-    body: "用人单位依法解除劳动合同时，应依照国家有关规定给予经济补偿。",
+    body: "明确相关法定情形应依照国家规定执行对应的给付标准。",
     href: "https://fgw.sh.gov.cn/cmsres/1a/1a050de6d8f645c7806f08a9aefd5f7b/b97cf0f12b558f73992cbf4fd7ffe547.pdf",
   },
   {
@@ -61,13 +61,13 @@ const legalReferences = [
   {
     index: "03",
     title: "《劳动合同法》第八十七条",
-    body: "用人单位违法解除或终止劳动合同，应按第四十七条标准的二倍支付赔偿金。",
+    body: "明确特定情形下按第四十七条计算标准的二倍执行。",
     href: "https://www.mohrss.gov.cn/xxgk2020/fdzdgknr/zcfg/fl/202011/t20201102_394622.html?eqid=d37e118e0008f0b400000006643e9540",
   },
   {
     index: "04",
     title: "实施条例第二十、二十七条",
-    body: "代通知金按劳动者上一个月工资确定；经济补偿月工资按应得工资计算。",
+    body: "明确加一部分按上一个月工资确定，N 的月工资按应得工资计算。",
     href: "https://know.12348.gov.cn/s/relate/?qid=5a1243e236aec5079b0aa3ef",
   },
 ];
@@ -115,11 +115,11 @@ function App() {
   return (
     <>
       <header className="site-header">
-        <a className="brand" href="#top" aria-label="杭州离职大礼包计算器首页">
+        <a className="brand" href="#top" aria-label="杭州大礼包计算器首页">
           <span className="brand-seal" aria-hidden="true">杭</span>
           <span>
-            杭州离职大礼包
-            <small>Compensation Estimator</small>
+            杭州大礼包计算器
+            <small>GOOD FORTUNE ESTIMATOR</small>
           </span>
         </a>
         <nav aria-label="页面导航">
@@ -133,24 +133,29 @@ function App() {
           <div className="hero-copy">
             <div className="eyebrow">
               <span className="pulse-dot" aria-hidden="true" />
-              数据只在你的浏览器里计算
+              红红火火算礼包 · 数据只留在本地
             </div>
             <h1>
-              离职这笔账，
+              好日子到了，
               <br />
-              <em>先算清楚。</em>
+              <em>先沾沾喜气。</em>
             </h1>
             <p>
-              输入工资和在职时间，一次看懂 N、N+1、2N。
-              不替你做法律判断，只帮你把数字说明白。
+              输入月薪和一路走来的时间，一次看懂标准、加码、双倍三档礼包。
+              数字算得明明白白，新篇章开得红红火火。
             </p>
             <a className="hero-cta" href="#calculator">
-              免费开始计算
+              开始接礼包
               <span aria-hidden="true">↓</span>
             </a>
           </div>
           <div className="hero-visual" aria-hidden="true">
             <div className="sun" />
+            <div className="lantern lantern-one"><span>喜</span></div>
+            <div className="lantern lantern-two"><span>福</span></div>
+            <i className="confetti confetti-one" />
+            <i className="confetti confetti-two" />
+            <i className="confetti confetti-three" />
             <div className="pagoda">
               <span />
               <span />
@@ -161,14 +166,14 @@ function App() {
             <div className="mountain mountain-front" />
             <div className="lake-line lake-line-one" />
             <div className="lake-line lake-line-two" />
-            <div className="hero-stamp">清楚<br />有数</div>
+            <div className="hero-stamp">好事<br />成双</div>
           </div>
         </section>
 
         <section className="calculator-section" id="calculator">
           <div className="section-intro">
             <span>01 / CALCULATOR</span>
-            <h2>算算你的“大礼包”</h2>
+            <h2>算算你的好彩头</h2>
             <p>工资请填写税前应得工资，而不是到手工资或社保缴费基数。</p>
           </div>
 
@@ -208,7 +213,7 @@ function App() {
 
               <div className="date-grid">
                 <label className="field">
-                  <span className="field-label">入职日期</span>
+                  <span className="field-label">起算日期</span>
                   <input
                     type="date"
                     value={startDate}
@@ -217,7 +222,7 @@ function App() {
                 </label>
                 <span className="date-connector" aria-hidden="true">至</span>
                 <label className="field">
-                  <span className="field-label">离职 / 预计离职日期</span>
+                  <span className="field-label">礼包结算日期</span>
                   <input
                     type="date"
                     value={endDate}
@@ -266,7 +271,7 @@ function App() {
                 <div className="advanced-content">
                   <label className="field">
                     <span className="field-label">
-                      解除前一个月工资
+                      结算前一个月工资
                       <small>留空时按前 12 个月平均工资估算</small>
                     </span>
                     <span className="compact-money-input">
@@ -328,7 +333,7 @@ function App() {
 
               {result ? (
                 <>
-                  <p className="result-label">{selectedMode.label}参考金额</p>
+                  <p className="result-label">{selectedMode.label}喜庆参考金额</p>
                   <div className="result-amount">{formatCurrency(result.total)}</div>
                   <p className="result-caption">
                     按税前金额估算，实际支付与税务处理以具体情况为准
@@ -394,25 +399,25 @@ function App() {
                     {futureEndDate && (
                       <p className="status neutral">
                         <span>i</span>
-                        离职日期在未来，本结果为预计金额
+                        礼包结算日期在未来，本结果为预计金额
                       </p>
                     )}
                   </div>
 
                   <div className="scenario-note">
                     <span>适用提醒</span>
-                    <p>{selectedMode.description}。是否适用须结合解除原因、程序和证据判断。</p>
+                    <p>{selectedMode.description}。最终适用档位仍需结合具体材料判断。</p>
                   </div>
                 </>
               ) : (
                 <div className="empty-result">
                   <div className="empty-coin" aria-hidden="true">¥</div>
-                  <h3>填完信息，金额就会出现在这里</h3>
+                  <h3>填完信息，喜庆数字马上揭晓</h3>
                   <p>{validation.message}</p>
                   <ol>
                     <li><span>1</span>填写平均工资</li>
                     <li><span>2</span>选择在职时间</li>
-                    <li><span>3</span>查看三种结果</li>
+                    <li><span>3</span>接住三档礼包</li>
                   </ol>
                 </div>
               )}
@@ -456,7 +461,7 @@ function App() {
               <h2>有法可依，也要具体分析</h2>
             </div>
             <p>
-              法条决定计算框架，但解除原因、通知程序、证据材料会决定你是否真的适用。
+              法条给出计算框架，实际档位仍要结合通知程序和证据材料综合判断。
             </p>
           </div>
           <div className="legal-list">
@@ -482,7 +487,7 @@ function App() {
               target="_blank"
               rel="noreferrer"
             >
-              杭州市人社局：经济补偿标准 ↗
+              杭州市人社局：相关计算口径 ↗
             </a>
             <a
               href="https://zfgb.hangzhou.gov.cn/ShiShuJuZiYuanJu/144/102220263/t113220263024/530201.shtml"
@@ -497,11 +502,11 @@ function App() {
         <section className="disclaimer">
           <span className="disclaimer-mark" aria-hidden="true">知</span>
           <div>
-            <h2>计算器不是裁判书</h2>
+            <h2>喜庆归喜庆，依据也要看清</h2>
             <p>
-              本工具仅根据你输入的信息做数学估算，不判断解除是否合法，不构成法律意见。
-              如涉及违法解除、2008 年前工龄、竞业限制、年终奖或复杂工资构成，建议携带劳动合同、
-              工资流水和解除通知咨询劳动仲裁机构、工会或专业律师。
+              本工具仅根据你输入的信息做数学估算，不判断具体情形，不构成法律意见。
+              如涉及 2008 年前工龄、竞业限制、年终奖或复杂工资构成，建议携带合同、
+              工资流水和相关通知咨询劳动仲裁机构、工会或专业律师。
             </p>
           </div>
           <div className="disclaimer-meta">
@@ -513,8 +518,8 @@ function App() {
 
       <footer>
         <div>
-          <strong>杭州离职大礼包计算器</strong>
-          <p>愿每一份劳动，都被认真对待。</p>
+          <strong>杭州大礼包计算器</strong>
+          <p>愿一路有收获，下一程更红火。</p>
         </div>
         <p>纯前端本地计算 · 不收集个人信息 · 结果仅供参考</p>
       </footer>
