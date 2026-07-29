@@ -85,6 +85,8 @@ describe("calculateCompensation", () => {
       mode: "n+1",
     });
     expect(result.total).toBe(22_000);
+    expect(result.lastMonthSalary).toBe(12_000);
+    expect(result.formula).toContain("上一个月工资 12,000");
   });
 
   it("2N 是 N 结果的两倍", () => {

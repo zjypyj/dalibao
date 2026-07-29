@@ -729,6 +729,43 @@ a {
   border: 5px solid var(--red);
 }
 
+.plus-one-basis {
+  position: relative;
+  margin-top: 16px;
+  padding: 18px;
+  border: 1px solid #d9af59;
+  background:
+    linear-gradient(135deg, rgba(255, 240, 202, 0.78), rgba(255, 250, 235, 0.96)),
+    #fff8e7;
+  box-shadow: inset 4px 0 0 var(--red);
+}
+
+.plus-one-heading {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.plus-one-heading > span {
+  color: var(--red);
+  font-family: "Songti SC", "STSong", serif;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.plus-one-heading a {
+  color: #85652e;
+  font-size: 10px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.plus-one-heading a:hover {
+  color: var(--red);
+}
+
 .advanced-settings {
   margin-top: 24px;
   border-top: 1px solid #dedfd9;
@@ -899,6 +936,21 @@ a {
   margin-top: 4px;
   color: #d5b866;
   font-size: 9px;
+}
+
+.result-breakdown dt small {
+  display: block;
+  margin-top: 4px;
+  color: #d5b866;
+  font-size: 9px;
+}
+
+.result-breakdown .plus-one-breakdown {
+  margin-top: 8px;
+  padding-right: 10px;
+  padding-left: 10px;
+  border: 1px solid rgba(244, 212, 125, 0.3);
+  background: rgba(244, 212, 125, 0.06);
 }
 
 .status-list {
@@ -1384,6 +1436,11 @@ footer p {
   .mode-option {
     grid-template-columns: 52px 1fr auto;
     padding: 12px;
+  }
+
+  .plus-one-heading {
+    align-items: flex-start;
+    flex-direction: column;
   }
 
   .advanced-content {

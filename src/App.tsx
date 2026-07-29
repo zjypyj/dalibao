@@ -36,7 +36,7 @@ const modes: Array<{
     value: "n+1",
     label: "加码礼包",
     short: "N+1",
-    description: "在标准档上再添一份，具体适用请核对实际情况",
+    description: "N 加上结算前一个月工资，仅适用于符合第四十条且未提前 30 日书面通知的情形",
   },
   {
     value: "2n",
@@ -67,9 +67,15 @@ const legalReferences = [
   },
   {
     index: "04",
-    title: "实施条例第二十、二十七条",
-    body: "明确加一部分按上一个月工资确定，N 的月工资按应得工资计算。",
-    href: "https://know.12348.gov.cn/s/relate/?qid=5a1243e236aec5079b0aa3ef",
+    title: "《劳动合同法实施条例》第二十条",
+    body: "明确“+1”部分应按劳动者上一个月的工资标准确定，并非按 N 的计算基数确定。",
+    href: "https://xzfg.moj.gov.cn/front/law/detail?LawID=284",
+  },
+  {
+    index: "05",
+    title: "《劳动合同法实施条例》第二十七条",
+    body: "N 的月工资按劳动者应得工资计算，通常取结算前十二个月的平均工资。",
+    href: "https://xzfg.moj.gov.cn/front/law/detail?LawID=284",
   },
 ];
 
@@ -286,19 +292,25 @@ function App() {
                 </div>
               </fieldset>
 
-              <details className="advanced-settings">
-                <summary>
-                  <span>
-                    高级设置
-                    <small>杭州私企基准已预设，也可按实际口径调整</small>
-                  </span>
-                  <b aria-hidden="true">＋</b>
-                </summary>
-                <div className="advanced-content">
+              {mode === "n+1" && (
+                <div className="plus-one-basis">
+                  <div className="plus-one-heading">
+                    <span>“+1”单独取值</span>
+                    <a
+                      href="https://xzfg.moj.gov.cn/front/law/detail?LawID=284"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      实施条例第二十条 ↗
+                    </a>
+                  </div>
                   <label className="field">
                     <span className="field-label">
                       结算前一个月工资
-                      <small>留空时按前 12 个月平均工资估算</small>
+                      <small>
+                        “+1”按这个数计算，不使用 N 的月工资基数；留空时暂按前
+                        12 个月平均工资估算
+                      </small>
                     </span>
                     <span className="compact-money-input">
                       <span>¥</span>
@@ -312,6 +324,18 @@ function App() {
                       />
                     </span>
                   </label>
+                </div>
+              )}
+
+              <details className="advanced-settings">
+                <summary>
+                  <span>
+                    高级设置
+                    <small>杭州私企基准已预设，也可按实际口径调整</small>
+                  </span>
+                  <b aria-hidden="true">＋</b>
+                </summary>
+                <div className="advanced-content">
                   <label className="field">
                     <span className="field-label">
                       杭州市区最低月工资
@@ -395,6 +419,18 @@ function App() {
                       <dt>N 部分金额</dt>
                       <dd>{formatCurrency(result.nAmount)}</dd>
                     </div>
+                    {mode === "n+1" && (
+                      <div className="plus-one-breakdown">
+                        <dt>
+                          “+1”部分
+                          <small>按结算前一个月工资</small>
+                        </dt>
+                        <dd>
+                          {formatCurrency(result.lastMonthSalary)}
+                          {!lastMonthSalary && <small>当前按十二个月平均工资暂估</small>}
+                        </dd>
+                      </div>
+                    )}
                   </dl>
 
                   <div className="status-list">
@@ -420,6 +456,13 @@ function App() {
                       <p className="status warning">
                         <span>!</span>
                         尚未核验三倍月上限；请在高级设置填写适用口径
+                      </p>
+                    )}
+                    {mode === "n+1" && !lastMonthSalary && (
+                      <p className="status warning">
+                        <span>!</span>
+                        尚未填写结算前一个月工资，“+1”当前按前 12
+                        个月平均工资暂估
                       </p>
                     )}
                     {result.hasPre2008Service && (

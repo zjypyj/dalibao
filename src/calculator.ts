@@ -258,7 +258,7 @@ export const calculateCompensation = (
   let formula = `${formatFormulaAmount(compensationBase)} × ${nCoefficient}N`;
   if (input.mode === "n+1") {
     total += lastMonthSalary;
-    formula += ` + ${formatFormulaAmount(lastMonthSalary)}`;
+    formula += ` + 上一个月工资 ${formatFormulaAmount(lastMonthSalary)}`;
   } else if (input.mode === "2n") {
     total *= 2;
     formula = `(${formula}) × 2`;
