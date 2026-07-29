@@ -1,5 +1,9 @@
 export type CalculationMode = "n" | "n+1" | "2n";
 
+export const HANGZHOU_PRIVATE_ANNUAL_AVERAGE_WAGE_2025 = 95_545;
+export const HANGZHOU_PRIVATE_MONTHLY_AVERAGE_WAGE_2025 =
+  HANGZHOU_PRIVATE_ANNUAL_AVERAGE_WAGE_2025 / 12;
+
 export interface CalculationInput {
   monthlyAverageSalary: number;
   startDate: string;

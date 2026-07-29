@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   calculateCompensation,
   calculateNCoefficient,
+  HANGZHOU_PRIVATE_MONTHLY_AVERAGE_WAGE_2025,
   type CalculationInput,
 } from "./calculator";
 
@@ -52,6 +53,16 @@ describe("calculateCompensation", () => {
       localAverageMonthlyWage: 10_000,
     });
     expect(result.compensationBase).toBe(30_000);
+    expect(result.usedThreeTimesCap).toBe(true);
+  });
+
+  it("月薪三万时默认按杭州私营单位 2025 年工资口径封顶", () => {
+    const result = calculateCompensation({
+      ...baseInput,
+      monthlyAverageSalary: 30_000,
+      localAverageMonthlyWage: HANGZHOU_PRIVATE_MONTHLY_AVERAGE_WAGE_2025,
+    });
+    expect(result.compensationBase).toBeCloseTo(23_886.25, 2);
     expect(result.usedThreeTimesCap).toBe(true);
   });
 

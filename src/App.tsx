@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import {
   calculateCompensation,
+  HANGZHOU_PRIVATE_ANNUAL_AVERAGE_WAGE_2025,
   validateCalculationInput,
   type CalculationMode,
 } from "./calculator";
@@ -78,7 +79,9 @@ function App() {
   const [endDate, setEndDate] = useState(getToday());
   const [lastMonthSalary, setLastMonthSalary] = useState("");
   const [minimumMonthlyWage, setMinimumMonthlyWage] = useState("2660");
-  const [localAverageMonthlyWage, setLocalAverageMonthlyWage] = useState("");
+  const [localAverageAnnualWage, setLocalAverageAnnualWage] = useState(
+    String(HANGZHOU_PRIVATE_ANNUAL_AVERAGE_WAGE_2025),
+  );
   const [mode, setMode] = useState<CalculationMode>("n");
 
   const numericAverageSalary = Number(monthlyAverageSalary);
@@ -91,8 +94,8 @@ function App() {
         ? Number(lastMonthSalary)
         : numericAverageSalary,
       minimumMonthlyWage: Number(minimumMonthlyWage),
-      localAverageMonthlyWage: localAverageMonthlyWage
-        ? Number(localAverageMonthlyWage)
+      localAverageMonthlyWage: localAverageAnnualWage
+        ? Number(localAverageAnnualWage) / 12
         : undefined,
       mode,
     }),
@@ -102,7 +105,7 @@ function App() {
       endDate,
       lastMonthSalary,
       minimumMonthlyWage,
-      localAverageMonthlyWage,
+      localAverageAnnualWage,
       mode,
     ],
   );
@@ -111,6 +114,9 @@ function App() {
   const result = validation.valid ? calculateCompensation(input) : null;
   const selectedMode = modes.find((item) => item.value === mode)!;
   const futureEndDate = endDate > getToday();
+  const threeTimesMonthlyCap = localAverageAnnualWage
+    ? Number(localAverageAnnualWage) / 4
+    : 0;
 
   return (
     <>
@@ -211,6 +217,26 @@ function App() {
                 </span>
               </label>
 
+              <div className="benchmark-strip">
+                <div>
+                  <span>杭州私企基准已自动启用</span>
+                  <strong>
+                    2025 年均 {formatCurrency(HANGZHOU_PRIVATE_ANNUAL_AVERAGE_WAGE_2025)}
+                  </strong>
+                </div>
+                <div>
+                  <span>三倍月上限</span>
+                  <strong>{formatCurrency(HANGZHOU_PRIVATE_ANNUAL_AVERAGE_WAGE_2025 / 4)}</strong>
+                </div>
+                <a
+                  href="https://www.hangzhou.gov.cn/col/col1229063404/art/2026/art_3374a0ffce8f43119c6b6f8fd68ae431.html"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  官方数据 ↗
+                </a>
+              </div>
+
               <div className="date-grid">
                 <label className="field">
                   <span className="field-label">起算日期</span>
@@ -264,7 +290,7 @@ function App() {
                 <summary>
                   <span>
                     高级设置
-                    <small>提高 N+1 和高工资封顶计算精度</small>
+                    <small>杭州私企基准已预设，也可按实际口径调整</small>
                   </span>
                   <b aria-hidden="true">＋</b>
                 </summary>
@@ -304,8 +330,8 @@ function App() {
                   </label>
                   <label className="field advanced-wide">
                     <span className="field-label">
-                      上年度杭州职工月平均工资
-                      <small>不同年度与案件口径可能不同，请以官方数据或专业意见为准</small>
+                      杭州单位就业人员年平均工资
+                      <small>默认 2025 年私营单位 95545 元；其他单位或年度可据实修改</small>
                     </span>
                     <span className="compact-money-input">
                       <span>¥</span>
@@ -313,10 +339,10 @@ function App() {
                         type="number"
                         min="0"
                         step="100"
-                        placeholder="留空则不核验三倍封顶"
-                        value={localAverageMonthlyWage}
+                        placeholder="留空则不核验三倍月上限"
+                        value={localAverageAnnualWage}
                         onChange={(event) =>
-                          setLocalAverageMonthlyWage(event.target.value)
+                          setLocalAverageAnnualWage(event.target.value)
                         }
                       />
                     </span>
@@ -381,13 +407,19 @@ function App() {
                     {result.usedThreeTimesCap && (
                       <p className="status success">
                         <span>✓</span>
-                        已应用当地职工月平均工资三倍封顶
+                        已应用杭州私企三倍月上限 {formatCurrency(threeTimesMonthlyCap)}
+                      </p>
+                    )}
+                    {result.capChecked && !result.usedThreeTimesCap && (
+                      <p className="status success">
+                        <span>✓</span>
+                        已核验杭州私企三倍月上限 {formatCurrency(threeTimesMonthlyCap)}
                       </p>
                     )}
                     {!result.capChecked && (
                       <p className="status warning">
                         <span>!</span>
-                        尚未核验三倍封顶；高工资用户请填写高级设置
+                        尚未核验三倍月上限；请在高级设置填写适用口径
                       </p>
                     )}
                     {result.hasPre2008Service && (
@@ -495,6 +527,13 @@ function App() {
               rel="noreferrer"
             >
               杭州市区 2026 年最低工资通知 ↗
+            </a>
+            <a
+              href="https://www.hangzhou.gov.cn/col/col1229063404/art/2026/art_3374a0ffce8f43119c6b6f8fd68ae431.html"
+              target="_blank"
+              rel="noreferrer"
+            >
+              杭州 2025 年单位平均工资 ↗
             </a>
           </div>
         </section>
